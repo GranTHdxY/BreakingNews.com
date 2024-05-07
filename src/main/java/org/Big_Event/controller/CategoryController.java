@@ -3,6 +3,7 @@ package org.Big_Event.controller;
 import org.Big_Event.pojo.Category;
 import org.Big_Event.pojo.Result;
 import org.Big_Event.service.CategoryService;
+import org.Big_Event.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,31 @@ public class CategoryController {
     public Result<List<Category>> list(){
         List<Category> cl = categoryService.list();
         return Result.success(cl);
+    }
+
+    //根据分类ID获取文章分类的详情
+    @GetMapping("/detail")
+    public Result<Category> detail(Integer id){
+        Category category = categoryService.findCategoryById(id);
+        return Result.success(category);
+    }
+
+    //更新文章分类
+    @PutMapping
+    public Result update(@RequestBody @Validated Category category){
+        categoryService.update(category);
+        return Result.success();
+    }
+
+    @DeleteMapping
+    public Result delete(Integer id){
+        Category category = categoryService.findCategoryById(id);
+        if(category != null) {
+            categoryService.delete(category);
+            return Result.success(category);
+        }else{
+            return Result.error("不存在该文章分类 删除冗余");
+        }
     }
 
 

@@ -36,4 +36,20 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.list(userId);
     }
 
+    @Override
+    public Category findCategoryById(Integer id) {
+        return categoryMapper.findCategoryById(id);
+    }
+
+    @Override
+    public void update(Category category) {
+        categoryMapper.update(category);
+    }
+
+    @Override
+    public void delete(Category category) {
+        categoryMapper.delete(category);
+    }
+
+
 }

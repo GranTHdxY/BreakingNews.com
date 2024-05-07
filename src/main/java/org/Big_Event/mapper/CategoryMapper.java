@@ -26,4 +26,22 @@ public interface CategoryMapper {
             @Result(property = "updateTime", column = "update_time")
     })
     List<Category> list(Integer userId);
+
+    @Select("select * from category where id = #{id}")
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "categoryName", column = "category_name"),
+            @Result(property = "categoryAlias", column = "category_alias"),
+            @Result(property = "categoryUser", column = "category_user"),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "updateTime", column = "update_time")
+    })
+    Category findCategoryById(Integer id);
+
+    @Update("update category set category_name = #{categoryName}, category_alias = #{categoryAlias}," +
+            "update_time = now() where id = #{id}")
+    void update(Category category);
+
+    @Delete("delete from category WHERE id = #{id}")
+    void delete(Category category);
 }
