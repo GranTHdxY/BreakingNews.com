@@ -17,8 +17,6 @@ public class JwtTest {
     @Test
     public void testGen(){
         Map<String, Objects> claims = new HashMap<>();
-        claims.put("id", 1);
-        claims.put("username", "张三");
         //生成jwt代码
         String token = JWT.create()
                 .withClaim("user",claims)

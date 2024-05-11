@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/article")
 public class ArticleController {
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     //添加文章
     @PostMapping
@@ -26,7 +26,7 @@ public class ArticleController {
         return Result.success();
     }
 
-    //获取文章详情
+    //获取文章详情category_id
     //这里的参数required 是 必须 非必须的意思
     @GetMapping
     public Result<PageBean<Article>> list(Integer pageNum, Integer pageSize,
@@ -34,7 +34,26 @@ public class ArticleController {
                                           @RequestParam(required = false) String state){
         PageBean<Article> pb = articleService.list(pageNum, pageSize, categoryId, state);
         return Result.success(pb);
+    }
 
+    //根据Id获取文章信息
+    @GetMapping("/detail")
+    public Result get(@RequestBody Integer id){
+        Article article = articleService.get(id);
+        return Result.success(article);
+    }
+
+    @PutMapping
+    public Result update(@RequestBody @Validated Article article){
+        //优化？是否要先检查文章分类是否存在？
+        articleService.update(article);
+        return Result.success(article);
+    }
+
+    @DeleteMapping
+    public Result delete(Integer id){
+        articleService.delete(id);
+        return Result.success();
     }
 
 }

@@ -5,11 +5,13 @@ import com.github.pagehelper.PageHelper;
 import org.Big_Event.mapper.ArticleMapper;
 import org.Big_Event.pojo.Article;
 import org.Big_Event.pojo.PageBean;
+import org.Big_Event.pojo.Result;
 import org.Big_Event.service.ArticleService;
 import org.Big_Event.untils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ import java.util.Map;
 public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
-    ArticleMapper articleMapper;
+    private ArticleMapper articleMapper;
 
     @Override
     public void add(Article article) {
@@ -48,6 +50,26 @@ public class ArticleServiceImpl implements ArticleService {
         //把数据填充到PageBean对象中
         pb.setTotal((p.getTotal()));
         pb.setItems((p.getResult()));
-        return null;
+        return pb;
+    }
+
+    @Override
+    public Article get(Integer id) {
+        return articleMapper.get(id);
+    }
+
+    @Override
+    public void update(Article article) {
+        //补充文章分类的id、用户名
+        Map<String,Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        article.setCreateUser(userId);
+        article.setUpdateTime(LocalDateTime.now());
+        articleMapper.update(article);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        articleMapper.delete(id);
     }
 }

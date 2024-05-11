@@ -1,11 +1,13 @@
 package org.Big_Event.mapper;
 
 import org.Big_Event.pojo.Article;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+/**
+ * @author GranTHdxY
+ */
 @Mapper
 public interface ArticleMapper {
 
@@ -15,5 +17,17 @@ public interface ArticleMapper {
 
     //这里需要动态sql 用注解写动态sql会非常麻烦
     //用映射配置文件写
-   List<Article> list(Integer userId, String categoryId, String state);
+    List<Article> list(Integer userId, String categoryId, String state);
+
+    //根据文章ID查询文章
+    @Select("select * from article where id = #{id}")
+    Article get(Integer id);
+
+    //更新文章
+    @Update("update article set title = #{title}, content =#{content}, cover_img = #{coverImg}, category_id = #{categoryId}, state = #{state} where id = #{id}")
+    void update(Article article);
+
+
+    @Delete("delete from article where id = #{id}")
+    void delete(Integer id);
 }

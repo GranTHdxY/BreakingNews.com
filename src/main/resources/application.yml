@@ -1,6 +1,11 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/big_event
     username: root
     password: 1021734560a
+    url: jdbc:mysql://localhost:3306/big_event
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #开启驼峰命名转换
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
